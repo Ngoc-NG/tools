@@ -1,0 +1,27 @@
+# File: rancher-compose.yml
+#
+# Author: Massimo Cannavo <massimo5cannavo@gmail.com>
+# Date:   Tue Jun 19 15:05:02 PDT 2018
+#
+# Compose file that creates the Rancher ecosystem.
+#
+# https://hub.docker.com/r/rancher/rancher/
+#
+# Usage: docker-compose up --detach
+
+version: "3.4"
+
+services:
+  rancher:
+    image: rancher/rancher:latest
+    restart: unless-stopped
+    command: --acme-domain massimoc.do.rancher.space
+    volumes:
+      - rancher-data:/var/lib/rancher
+    ports:
+      - 80:80
+      - 443:443
+
+volumes:
+  rancher-data:
+    name: rancher-data
