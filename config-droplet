@@ -49,10 +49,18 @@ install_compose() {
   chmod +x /usr/local/bin/docker-compose
 }
 
+generate_ssh() {
+  ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
+  cat ~/.ssh/id_rsa.pub
+}
+
 main() {
   check_root
+
   install_docker
   install_compose
+
+  generate_ssh
 }
 
 main
