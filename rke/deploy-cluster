@@ -20,15 +20,15 @@ check_root() {
 
 check_args() {
   while getopts ":d" arg; do
-      case $arg in
-          d)
-              ./rke --config rancher-cluster.yml
-              exit
-              ;;
-          \?)
-              echo "${PROGNAME}: invalid argument -$OPTARG" >&2
-              exit $FAILURE
-              ;;
+    case $arg in
+      d)
+        ./rke --config rancher-cluster.yml
+        exit
+        ;;
+      \?)
+        echo "${PROGNAME}: invalid argument -$OPTARG" >&2
+        exit $FAILURE
+        ;;
       esac
   done
 }
@@ -36,7 +36,7 @@ check_args() {
 install_rke() {
   local -r ver="v0.1.7"
 
-  curl --fail --silent --show-error --location \ 
+  curl --fail --show-error --location \
     "https://github.com/rancher/rke/releases/download/$ver/rke_linux-amd64" \
     --output ./rke
 
@@ -45,7 +45,7 @@ install_rke() {
 
 main() {
   check_root
-  check_args
+  check_args $ARGS
 
   install_rke
 }
