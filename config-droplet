@@ -42,8 +42,11 @@ install_docker() {
 }
 
 install_compose() {
+  local -r ver="1.21.1"
+  local -r arch=`uname --kernel-name`-`uname --machine`
+
   curl --fail --silent --show-error --location \ 
-    "https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$arch" \
+    "https://github.com/docker/compose/releases/download/$ver/docker-compose-$arch" \
     --output /usr/local/bin/docker-compose
 
   chmod +x /usr/local/bin/docker-compose
