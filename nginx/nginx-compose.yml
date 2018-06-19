@@ -1,0 +1,22 @@
+# File: nginx-compose.yml
+#
+# Author: Massimo Cannavo <massimo5cannavo@gmail.com>
+# Date:   Tue Jun 19 15:12:39 PDT 2018
+#
+# Compose file that creates nginx HTTP load balancer.
+#
+# https://hub.docker.com/r/library/nginx/
+#
+# Usage: docker-compose up --detach
+
+version: "3.4"
+
+services:
+  nginx:
+    image: nginx:stable
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
