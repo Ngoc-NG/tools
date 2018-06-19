@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#
+# Author: Massimo Cannavo <massimo5cannavo@gmail.com>
+# Date:   Tue Jun 19 13:56:22 PDT 2018
+#
+# Script to automate configuration of a droplet on DigitalOcean.
+
+readonly PROGNAME=$(basename $0)
+
+readonly ROOT=0
+readonly FAILURE=1
+
+check_root() {
+  if [[ $EUID -ne $ROOT ]]; then
+    echo "${PROGNAME}: run as root" >&2
+    exit $FAILURE
+  fi
+}
+
+install_docker() {
+  local -r docker_gpg="https://download.docker.com/linux/ubuntu/gpg"
+  local -r docker_repo="https://download.docker.com/linux/ubuntu"
+  local -r docker_ver="17.03.2~ce-0~ubuntu-xenial"
+
+  apt-get update
+
+  apt-get install --yes \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+  curl --fail --silent --show-error --location $docker_gpg | apt-key add -
+
+  add-apt-repository \
+    "deb [arch=amd64] $docker_repo \
+    $(lsb_release --codename --short) \
+    stable"
+
+  apt-get update
+  apt-get install --yes docker-ce=$docker_ver
+}
+
+install_compose() {
+  curl --fail --silent --show-error --location \ 
+    "https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$arch" \
+    --output /usr/local/bin/docker-compose
+
+  chmod +x /usr/local/bin/docker-compose
+}
+
+main() {
+  check_root
+  install_docker
+  install_compose
+}
+
+main
