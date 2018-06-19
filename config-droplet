@@ -30,7 +30,7 @@ install_docker() {
     curl \
     software-properties-common
 
-  curl --fail --silent --show-error --location $docker_gpg | apt-key add -
+  curl --fail --show-error --location $docker_gpg | apt-key add -
 
   add-apt-repository \
     "deb [arch=amd64] $docker_repo \
@@ -45,7 +45,7 @@ install_compose() {
   local -r ver="1.21.1"
   local -r arch=`uname --kernel-name`-`uname --machine`
 
-  curl --fail --silent --show-error --location \ 
+  curl --fail --show-error --location \ 
     "https://github.com/docker/compose/releases/download/$ver/docker-compose-$arch" \
     --output /usr/local/bin/docker-compose
 
