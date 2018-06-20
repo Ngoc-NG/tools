@@ -6,7 +6,6 @@
 # Script to automate deployment of Rancher cluster.
 
 readonly PROGNAME=$(basename $0)
-readonly ARGS="$@"
 
 readonly ROOT=0
 readonly FAILURE=1
@@ -16,21 +15,6 @@ check_root() {
     echo "${PROGNAME}: run as root" >&2
     exit $FAILURE
   fi
-}
-
-check_args() {
-  while getopts ":d" arg; do
-    case $arg in
-      d)
-        ./rke --config rancher-cluster.yml
-        exit
-        ;;
-      \?)
-        echo "${PROGNAME}: invalid argument -$OPTARG" >&2
-        exit $FAILURE
-        ;;
-      esac
-  done
 }
 
 install_rke() {
@@ -43,11 +27,18 @@ install_rke() {
   chmod +x ./rke
 }
 
+deploy_cluster() {
+  ./rke --config rancher-cluster.yml
+}
+
 main() {
   check_root
-  check_args $ARGS
 
-  install_rke
+  if [[ ! -x ./rke ]]; then
+    install_rke
+  fi
+
+  deploy_cluster
 }
 
 main
