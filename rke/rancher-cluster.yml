@@ -10,7 +10,7 @@
 # Usage: ./deploy-cluster
 
 nodes:
-  - address: 138.68.44.19
+  - address:
     user: root
     role:
       - controlplane
@@ -18,7 +18,7 @@ nodes:
       - worker
     ssh_key_path: ~/.ssh/id_rsa
 
-  - address: 138.197.194.111
+  - address:
     user: root
     role:
       - controlplane
