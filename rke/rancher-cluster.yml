@@ -3,7 +3,7 @@
 # Author: Massimo Cannavo <massimo5cannavo@gmail.com>
 # Date:   Tue Jun 19 16:11:23 PDT 2018
 #
-# A yaml file used by rke to bring up a Rancher cluster. 
+# A yaml file used by rke to bring up a Rancher cluster.
 #
 # https://github.com/rancher/rke
 #
