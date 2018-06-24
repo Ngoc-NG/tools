@@ -26,6 +26,14 @@ nodes:
       - worker
     ssh_key_path: ~/.ssh/id_rsa
 
+  - address:
+    user: root
+    role:
+      - controlplane
+      - etcd
+      - worker
+    ssh_key_path: ~/.ssh/id_rsa
+
 addons: |-
   ---
   kind: Namespace
