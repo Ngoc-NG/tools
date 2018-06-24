@@ -7,7 +7,12 @@
 #
 # https://github.com/rancher/cli
 #
-# Usage: ../rke/deploy-cluster
+# Usage: ./config-rancher-cli
+#
+#        docker-compose -f rancher-cli-compose.yml run --rm rancher-cli \
+#          kubectl get pods
+#
+#        ../rke/deploy-cluster
 #
 #        docker-compose -f rancher-cli-compose.yml run --rm rancher-cli \
 #          kubectl --kubeconfig=/root/.kube/config get pods -n kube-system
