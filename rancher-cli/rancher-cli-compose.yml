@@ -1,0 +1,23 @@
+# File: rancher-cli-compose.yml
+#
+# Author: Massimo Cannavo <massimo5cannavo@gmail.com>
+# Date:   Sun Jun 24 13:38:00 PDT 2018
+#
+# Compose file for Rancher CLI container.
+#
+# https://github.com/rancher/cli
+#
+# Usage: ../rke/deploy-cluster
+#
+#        docker-compose -f rancher-cli-compose.yml run --rm rancher-cli \
+#          kubectl --kubeconfig=/root/.kube/config get pods -n kube-system
+
+version: "3.4"
+
+services:
+  rancher-cli:
+    image: rancher/cli:latest
+    volumes:
+      - ~/.rancher/:/root/.rancher/
+      - ../rke/kube_config_rancher-cluster.yml:/root/.kube/config
+      - ./kubectl:/usr/local/bin/kubectl
