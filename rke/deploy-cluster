@@ -28,7 +28,7 @@ install_rke() {
 }
 
 deploy_cluster() {
-  ./rke --config rancher-cluster.yml
+  ./rke up --config rancher-cluster.yml
 }
 
 main() {
