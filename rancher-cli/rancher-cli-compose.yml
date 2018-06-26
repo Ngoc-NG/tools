@@ -25,4 +25,4 @@ services:
     volumes:
       - ~/.rancher/:/root/.rancher/
       - ../rke/kube_config_rancher-cluster.yml:/root/.kube/config
-      - ./kubectl:/usr/local/bin/kubectl
+      - /usr/local/bin/kubectl:/usr/local/bin/kubectl
