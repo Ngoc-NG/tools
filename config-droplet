@@ -12,11 +12,19 @@ readonly PROGNAME=$(basename $0)
 readonly ROOT=0
 readonly FAILURE=1
 
+readonly RED="\033[0;31m"
+readonly RESET="\033[0m"
+
 check_root() {
   if [[ $EUID -ne $ROOT ]]; then
-    echo "${PROGNAME}: run as root" >&2
+    printf "${RED}${PROGNAME}${RESET}: run as root\n" >&2
     exit $FAILURE
   fi
+}
+
+is_installed() {
+  local -r pkg=${1:null}
+  return `which $pkg > /dev/null` 
 }
 
 install_docker() {
@@ -62,10 +70,17 @@ generate_ssh() {
 main() {
   check_root
 
-  install_docker
-  install_compose
+  if ! is_installed "docker"; then
+    install_docker
+  fi
 
-  generate_ssh
+  if ! is_installed "docker-compose"; then
+    install_compose
+  fi
+
+  if [[ ! -f ~/.ssh/id_rsa.pub ]]; then
+    generate_ssh
+  fi
 }
 
 main
