@@ -12,11 +12,19 @@ readonly PROGNAME=$(basename $0)
 readonly ROOT=0
 readonly FAILURE=1
 
+readonly RED="\033[0;31m"
+readonly RESET="\033[0m"
+
 check_root() {
   if [[ $EUID -ne $ROOT ]]; then
-    echo "${PROGNAME}: run as root" >&2
+    printf "${RED}${PROGNAME}${RESET}: run as root\n" >&2
     exit $FAILURE
   fi
+}
+
+is_installed() {
+  local -r pkg=${1:null}
+  return `which $pkg > /dev/null`
 }
 
 install_rke() {
@@ -24,19 +32,19 @@ install_rke() {
 
   curl --fail --show-error --location \
     "https://github.com/rancher/rke/releases/download/$ver/rke_linux-amd64" \
-    --output ./rke
+    --output /usr/local/bin/rke
 
-  chmod +x ./rke
+  chmod +x /usr/local/bin/rke
 }
 
 deploy_cluster() {
-  ./rke up --config rancher-cluster.yml
+  rke up --config rancher-cluster.yml
 }
 
 main() {
   check_root
 
-  if [[ ! -x ./rke ]]; then
+  if ! is_installed "rke"; then
     install_rke
   fi
 
