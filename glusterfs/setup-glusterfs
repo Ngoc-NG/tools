@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# File: setup-glusterfs
+#
+# Author: Massimo Cannavo <massimo5cannavo@gmail.com>
+# Date:   Mon Jun 25 19:42:33 PDT 2018
+#
+# Script to automate GlusterFS integration with Kubernetes
+
+readonly PROGNAME=$(basename $0)
+
+readonly ROOT=0
+readonly FAILURE=1
+
+readonly RED="\033[0;31m"
+readonly RESET="\033[0m"
+
+check_root() {
+  if [[ $EUID -ne $ROOT ]]; then
+    printf "${RED}${PROGNAME}${RESET}: run as root\n" >&2
+    exit $FAILURE
+  fi
+}
+
+install_tools() {
+  local -r heketi="heketi-client-v7.0.0.linux.amd64.tar.gz"
+
+  if [[ ! -d ~/heketi ]]; then
+    git clone https://github.com/heketi/heketi
+  fi
+
+  if [[ ! -d ~/heketi-client ]]; then
+    wget https://github.com/heketi/heketi/releases/download/v7.0.0/$heketi
+  fi
+
+  if [[ ! -f ~/$heketi ]]; then
+    tar -zxvf $heketi
+    rm $heketi
+  fi
+}
+
+main() {
+  check_root
+}
+
+main
