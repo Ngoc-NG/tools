@@ -1,0 +1,25 @@
+# File: rancher-server-compose.yml
+#
+# Author: Massimo Cannavo <massimo5cannavo@gmail.com>
+# Date:   Wed Jun 27 10:59:34 PDT 2018
+#
+# Compose file that creates Rancher Server ecosystem.
+#
+# https://hub.docker.com/r/rancher/server/
+#
+# Usage: docker-compose up --detach
+
+version: "3.4"
+
+services:
+  rancher-server:
+    image: rancher/server:latest
+    restart: unless-stopped
+    volumes:
+      - rancher-data:/var/lib/mysql
+    ports:
+      - 8080:8080
+
+volumes:
+  rancher-data:
+    name: rancher-data
